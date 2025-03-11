@@ -104,7 +104,7 @@ function M.new( chat, roll_controller, softres, config )
 
     if strategy == RS.SoftResRoll and winner_count == item_count and not winners[ 1 ].winning_roll then
       local ressed_by = m.prettify_table( m.map( winners, function( winner ) return winner.name end ) )
-      chat.announce( string.format( "%s soft-ressed %s.", ressed_by, item.link ), true )
+      chat.announce( string.format( "%s has more SR stacks on %s.", ressed_by, item.link ), true )
 
       return
     end
