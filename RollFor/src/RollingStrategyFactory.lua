@@ -90,6 +90,25 @@ function M.new(
     ---@type RollingPlayer[]
     local softressing_players = softres.get( item.id )
 
+    -- Get all SR values from softressing players and count how many of each
+    local sr_plus = {}
+    for _, player in ipairs( softressing_players ) do
+      sr_plus[ player.sr_plus ] = sr_plus[ player.sr_plus ] and sr_plus[ player.sr_plus ] + 1 or 1
+    end
+
+    -- Find highest SR value
+    local max_sr_plus
+    for key in pairs(sr_plus ) do
+      if not max_sr_plus or key > max_sr_plus then
+        max_sr_plus = key
+      end
+    end
+
+    -- If highest SR only has 1 count, remove all but winning player
+    if sr_plus[ max_sr_plus ] == 1 then
+      softressing_players = { m.find( max_sr_plus, softressing_players, 'sr_plus' ) }
+    end  
+
     if getn( softressing_players ) == 0 then
       return normal_roll( item, item_count or 1, message, seconds, on_rolling_finished, roll_controller_facade )
     end
